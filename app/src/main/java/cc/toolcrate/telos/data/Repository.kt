@@ -123,7 +123,7 @@ class Repository @Inject constructor(
         }
         tasks.upsertAll(listOf(result.after) + changed)
         db.completions().upsert(result.completion)
-        if (result.recurred) resetReminderFiring(id)
+        if (result.recurred) resetReminderFiring(id, shiftDays = (result.after.dueDate ?: 0) - (task.dueDate ?: result.after.dueDate ?: 0))
         Undo(
             tasks = listOf(task) + descendants.filter { d -> changed.any { it.id == d.id } },
             completionsToRemove = listOf(result.completion),
@@ -249,11 +249,48 @@ class Repository @Inject constructor(
         })
     }
 
-    private suspend fun resetReminderFiring(taskId: String) {
+    /** After a recurring task moves on: reminders are ready to ring again, and fixed-time ones move with it. */
+    private suspend fun resetReminderFiring(taskId: String, shiftDays: Long) {
         val now = stamp.now()
         db.reminders().upsertAll(db.reminders().forTask(taskId).map {
-            it.copy(lastFiredFor = null, snoozedUntil = null, updatedAt = now, deviceId = device.deviceId)
+            it.copy(
+                lastFiredFor = null, snoozedUntil = null,
+                atDate = if (it.kind == ReminderKind.AT) it.atDate?.plus(shiftDays) else it.atDate,
+                updatedAt = now, deviceId = device.deviceId,
+            )
         })
+    }
+
+    // --- Reminders -----------------------------------------------------------------------
+
+    suspend fun addReminder(taskId: String, spec: ReminderSpec): Reminder {
+        val s = stamp
+        val now = s.now()
+        val r = when (spec) {
+            is ReminderSpec.Before -> Reminder(id = s.newId(), taskId = taskId, kind = ReminderKind.BEFORE, minutesBefore = spec.minutes, createdAt = now, updatedAt = now, deviceId = s.deviceId)
+            is ReminderSpec.At -> Reminder(id = s.newId(), taskId = taskId, kind = ReminderKind.AT, atDate = spec.epochDay, atMinute = spec.minuteOfDay, createdAt = now, updatedAt = now, deviceId = s.deviceId)
+        }
+        db.reminders().upsert(r)
+        return r
+    }
+
+    suspend fun deleteReminder(id: String) {
+        val r = db.reminders().get(id) ?: return
+        val now = stamp.now()
+        db.reminders().upsert(r.copy(deletedAt = now, updatedAt = now, deviceId = device.deviceId))
+    }
+
+    suspend fun reminder(id: String): Reminder? = db.reminders().get(id)
+
+    /** Records that [id] rang for [nominal], so it never rings for that moment again. */
+    suspend fun markFired(id: String, nominal: Long) {
+        val r = db.reminders().get(id) ?: return
+        db.reminders().upsert(r.copy(lastFiredFor = nominal, snoozedUntil = null, updatedAt = stamp.now(), deviceId = device.deviceId))
+    }
+
+    suspend fun snooze(id: String, until: Long) {
+        val r = db.reminders().get(id) ?: return
+        db.reminders().upsert(r.copy(snoozedUntil = until, updatedAt = stamp.now(), deviceId = device.deviceId))
     }
 
     private suspend fun descendantsOf(id: String): List<Task> {

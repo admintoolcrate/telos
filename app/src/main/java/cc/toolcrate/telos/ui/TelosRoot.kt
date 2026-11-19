@@ -212,7 +212,9 @@ private fun AppState.copyLatest(vm: AppViewModel): AppState = vm.state.value ?: 
 
 /** Sections added to the task screen by later features (reminders). */
 object TaskDetailSlots {
-    val slots = mutableListOf<@Composable (cc.toolcrate.telos.domain.model.Task, AppState, AppViewModel) -> Unit>()
+    val slots = mutableListOf<@Composable (cc.toolcrate.telos.domain.model.Task, AppState, AppViewModel) -> Unit>(
+        { t, s, vm -> cc.toolcrate.telos.reminders.ReminderSection(t, s, vm) },
+    )
 }
 
 @Composable
