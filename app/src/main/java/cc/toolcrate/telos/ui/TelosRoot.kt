@@ -78,7 +78,8 @@ private val tabs = listOf(
 class RouteContext(val state: AppState, val vm: AppViewModel, val nav: Nav, val selection: SelectionHandle, val arg: String?)
 
 object Routes {
-    val extra = linkedMapOf<String, @Composable (RouteContext) -> Unit>()
+    /** Feature screens beyond the tabs, keyed by route. */
+    val extra: Map<String, @Composable (RouteContext) -> Unit> = featureRoutes()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

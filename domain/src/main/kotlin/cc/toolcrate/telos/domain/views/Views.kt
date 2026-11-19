@@ -122,6 +122,27 @@ class Index(val snapshot: Snapshot) {
         return out
     }
 
+    /**
+     * The goal a task serves: its own link, else its parent task's, else its project's or the
+     * nearest linked ancestor project's.
+     */
+    fun goalOf(task: Task): String? {
+        task.goalId?.let { return it }
+        var parent = task.parentId?.let(tasksById::get)
+        val seen = mutableSetOf(task.id)
+        while (parent != null && seen.add(parent.id)) {
+            parent.goalId?.let { return it }
+            parent = parent.parentId?.let(tasksById::get)
+        }
+        var project = projects[task.projectId]
+        val seenP = mutableSetOf<String>()
+        while (project != null && seenP.add(project.id)) {
+            project.goalId?.let { return it }
+            project = project.parentId?.let(projects::get)
+        }
+        return null
+    }
+
     fun openCount(projectId: String): Int = openTasks.count { it.projectId == projectId }
 
     fun completed(): List<CompletedEntry> = snapshot.completions.filter { it.deletedAt == null }
@@ -139,6 +160,13 @@ class Index(val snapshot: Snapshot) {
     fun archivedProjects(): List<Project> = projects.values.filter { it.archivedAt != null && it.trashedAt == null }
 
     companion object {
+        const val TRASH_DAYS = 30
+
+        fun daysLeftInTrash(t: Task, nowMillis: Long): Long {
+            val trashed = t.trashedAt ?: return TRASH_DAYS.toLong()
+            return maxOf(0, TRASH_DAYS - (nowMillis - trashed) / 86_400_000L)
+        }
+
         /** Within a day: timed tasks first by time, then by priority, then the user's order. */
         val dayOrder: Comparator<Task> = compareBy<Task>(
             { it.dueDate ?: Long.MAX_VALUE },

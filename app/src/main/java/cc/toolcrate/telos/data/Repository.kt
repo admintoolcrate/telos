@@ -8,6 +8,7 @@ import cc.toolcrate.telos.domain.model.Project
 import cc.toolcrate.telos.domain.model.Reminder
 import cc.toolcrate.telos.domain.model.ReminderKind
 import cc.toolcrate.telos.domain.model.ReminderSpec
+import cc.toolcrate.telos.domain.model.SavedFilter
 import cc.toolcrate.telos.domain.model.Section
 import cc.toolcrate.telos.domain.model.Snapshot
 import cc.toolcrate.telos.domain.model.Task
@@ -371,6 +372,37 @@ class Repository @Inject constructor(
             it.copy(sectionId = null, updatedAt = now, deviceId = device.deviceId)
         })
     }
+
+    // --- Saved filters ---------------------------------------------------------------------
+
+    suspend fun saveFilter(id: String?, name: String, query: String): SavedFilter {
+        val now = stamp.now()
+        val existing = id?.let { db.filters().get(it) }
+        val f = existing?.copy(name = name.trim(), query = query.trim(), updatedAt = now, deviceId = device.deviceId)
+            ?: SavedFilter(
+                id = stamp.newId(), name = name.trim(), query = query.trim(),
+                orderKey = OrderKeys.between(db.filters().everything().filter { it.deletedAt == null }.maxOfOrNull { it.orderKey }, null),
+                createdAt = now, updatedAt = now, deviceId = device.deviceId,
+            )
+        db.filters().upsert(f)
+        return f
+    }
+
+    suspend fun deleteFilter(id: String) {
+        val f = db.filters().get(id) ?: return
+        val now = stamp.now()
+        db.filters().upsert(f.copy(name = "", query = "", deletedAt = now, updatedAt = now, deviceId = device.deviceId))
+    }
+
+    /** Full-text search over titles and notes; every word must match, as a prefix. */
+    suspend fun search(text: String): List<Task> {
+        val words = text.split(Regex("\\s+")).map { it.replace(Regex("[^\\p{L}\\p{N}]"), "") }.filter { it.isNotEmpty() }
+        if (words.isEmpty()) return emptyList()
+        return tasks.search(words.joinToString(" ") { "$it*" })
+    }
+
+    /** Puts a reopened or restored project back in the list. */
+    suspend fun unarchiveProject(id: String) = archiveProject(id, false)
 
     companion object {
         const val TRASH_DAYS = 30
