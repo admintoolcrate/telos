@@ -13,7 +13,9 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.serialization.json)
+    api(libs.serialization.json)
+    // Annotations only (pure JVM): the records below double as Room entities in :app.
+    api(libs.room.common)
     implementation(libs.bouncycastle)
 
     testImplementation(platform(libs.junit5.bom))

@@ -40,7 +40,12 @@ android {
 
     testOptions {
         unitTests.isIncludeAndroidResources = true
-        unitTests.all { it.systemProperty("robolectric.logging", "stderr") }
+        unitTests.all {
+            // Robolectric downloads Android's runtime jars; Google's Maven Central mirror avoids
+            // Central's rate limits on shared CI hosts.
+            it.systemProperty("robolectric.dependency.repo.url", "https://maven-central.storage-download.googleapis.com/maven2")
+            it.maxHeapSize = "3g"
+        }
     }
 
     packaging {
@@ -48,8 +53,9 @@ android {
     }
 
     sourceSets {
-        // Room's exported schemas, so migration tests can open every past version.
-        getByName("test").assets.srcDir("$projectDir/schemas")
+        // Room's exported schemas, so migration tests can open every past version. Robolectric
+        // only sees the app's merged assets, so they ride in debug builds (never release).
+        getByName("debug").assets.srcDir("$projectDir/schemas")
     }
 }
 
