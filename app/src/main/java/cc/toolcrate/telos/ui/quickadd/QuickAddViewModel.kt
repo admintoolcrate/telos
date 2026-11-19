@@ -44,6 +44,8 @@ sealed interface Pick<out T> {
 
 data class QuickAddState(
     val text: String = "",
+    /** Notes carried in from the share sheet (links, long text). */
+    val notes: String = "",
     val ignore: Set<Pair<TokenKind, String>> = emptySet(),
     val date: Pick<LocalDate> = Pick.None,
     val time: Pick<LocalTime> = Pick.None,
@@ -80,9 +82,9 @@ class QuickAddViewModel @Inject constructor(
     private val snapshot: StateFlow<Snapshot> = repo.snapshot.stateIn(viewModelScope, SharingStarted.Eagerly, Snapshot())
 
     fun start(projectId: String? = null, sectionId: String? = null, date: LocalDate? = null, parentId: String? = null,
-              goalId: String? = null, text: String = "") {
+              goalId: String? = null, text: String = "", notes: String = "") {
         _state.value = QuickAddState(
-            text = text, defaultProjectId = projectId ?: Project.INBOX_ID, defaultSectionId = sectionId,
+            text = text, notes = notes, defaultProjectId = projectId ?: Project.INBOX_ID, defaultSectionId = sectionId,
             defaultDate = date, parentId = parentId, goalId = goalId,
         )
     }
@@ -155,7 +157,7 @@ class QuickAddViewModel @Inject constructor(
         }
         val task = repo.addTask(
             TaskDraft(
-                title = title, projectId = projectId, sectionId = sectionId, parentId = s.parentId, goalId = goalId,
+                title = title, notes = s.notes, projectId = projectId, sectionId = sectionId, parentId = s.parentId, goalId = goalId,
                 priority = p.priority, dueDate = p.date?.toEpochDay(), dueMinute = p.time?.let(WallTime::minuteOf),
                 recurrence = p.parsed.recurrence?.let { r -> RecurrenceCodec.encode(if (p.date != null) r.copy(anchor = p.date) else r) },
                 labels = p.parsed.labels.map { it.name }, reminders = reminders,

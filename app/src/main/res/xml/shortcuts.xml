@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutShortLabel="@string/shortcut_add">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="cc.toolcrate.telos"
+            android:targetClass="cc.toolcrate.telos.capture.QuickAddActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="today"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_today"
+        android:shortcutShortLabel="@string/shortcut_today">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="cc.toolcrate.telos"
+            android:targetClass="cc.toolcrate.telos.MainActivity">
+            <extra android:name="cc.toolcrate.telos.ROUTE" android:value="today" />
+        </intent>
+    </shortcut>
+</shortcuts>
