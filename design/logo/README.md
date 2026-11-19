@@ -1,12 +1,12 @@
 # The Telos mark
 
-A Garamond capital **T** with a sepia full stop: *telos* is the end a thing aims at, and the
-full stop is where a sentence arrives.
+An open ring around a sepia point (option E in `alternatives.png`). *Telos* is the end a thing
+aims at: the point. The ring is left open because the work is still on its way there.
 
-- The T is the outline of "T" from **EB Garamond Medium** (SIL Open Font License, see
-  `third_party/eb-garamond-OFL.txt`), placed at 52 units with its baseline at y = 72 and centred
-  on x = 50 in the 108-unit adaptive-icon canvas. The full stop is a circle of radius 3.6 at
-  (70.5, 69).
+- Drawn in the 108-unit adaptive-icon canvas: an arc of radius 24 centred on (54, 54), from
+  (66, 33.2) round to (77.5, 49), stroke 3 with round caps, leaving a gap at the upper right;
+  and a point of radius 5.5 at the centre. The status-bar version uses stroke 5 and a point of
+  6.5 so it holds at 24dp.
 - Colours: ink `#2A2119` and sepia `#8B5E34` on Paper `#F4EEE1` (the app's light palette).
 
 | File | Use |
