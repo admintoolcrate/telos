@@ -32,6 +32,7 @@ data class Notice(val text: String, val undo: Undo? = null)
 class AppViewModel @Inject constructor(
     val repo: Repository,
     val prefs: Prefs,
+    val goals: cc.toolcrate.telos.data.GoalRepository,
     private val time: TimeSource,
 ) : ViewModel() {
 
@@ -87,6 +88,9 @@ class AppViewModel @Inject constructor(
     /** The title to show: a private task's cover title while "private in app" is on. */
     fun titleFor(task: cc.toolcrate.telos.domain.model.Task, state: AppState): String =
         task.coverTitle?.takeIf { state.settings.privateInApp && it.isNotBlank() } ?: task.title
+
+    fun goalTitle(goal: cc.toolcrate.telos.domain.model.Goal, state: AppState): String =
+        goal.coverTitle?.takeIf { state.settings.privateInApp && it.isNotBlank() } ?: goal.title
 
     fun toggleCollapsed(task: cc.toolcrate.telos.domain.model.Task) = viewModelScope.launch {
         repo.updateTask(task.copy(collapsed = !task.collapsed))

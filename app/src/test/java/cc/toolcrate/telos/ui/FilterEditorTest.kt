@@ -12,6 +12,7 @@ import cc.toolcrate.telos.data.FakeTime
 import cc.toolcrate.telos.data.Prefs
 import cc.toolcrate.telos.data.Settings
 import cc.toolcrate.telos.data.testRepository
+import cc.toolcrate.telos.data.testAppViewModel
 import cc.toolcrate.telos.domain.model.Project
 import cc.toolcrate.telos.domain.model.Snapshot
 import cc.toolcrate.telos.domain.model.Task
@@ -39,7 +40,7 @@ class FilterEditorTest {
             )),
             today, Settings(),
         )
-        val vm = AppViewModel(testRepository(time = FakeTime()), Prefs(ApplicationProvider.getApplicationContext()), FakeTime())
+        val vm = testAppViewModel()
         compose.setContent { TelosTheme { FilterEditScreen(null, state, vm, Nav({}, {}, {}, {}, {}, {}, {}, {})) } }
         compose.onNodeWithText("1 open task matches").assertIsDisplayed()
         compose.onAllNodesWithText("today & p1")[0].performTextReplacement("today & bananas")

@@ -25,3 +25,11 @@ fun testRepository(db: TelosDatabase = inMemoryDb(), time: FakeTime = FakeTime()
 
 @Suppress("unused")
 private val utc = ZoneOffset.UTC
+
+fun testAppViewModel(time: FakeTime = FakeTime()): cc.toolcrate.telos.ui.AppViewModel {
+    val db = inMemoryDb()
+    val ctx = ApplicationProvider.getApplicationContext<Context>()
+    return cc.toolcrate.telos.ui.AppViewModel(
+        testRepository(db, time), Prefs(ctx), GoalRepository(db, DeviceIdentity(ctx, time)), time,
+    )
+}

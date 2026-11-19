@@ -25,6 +25,7 @@ import cc.toolcrate.telos.ui.theme.TelosTheme
 import cc.toolcrate.telos.data.FakeTime
 import cc.toolcrate.telos.data.Prefs
 import cc.toolcrate.telos.data.testRepository
+import cc.toolcrate.telos.data.testAppViewModel
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -54,7 +55,7 @@ class TodayScreenTest {
         settings = Settings(),
     )
 
-    private val vm = AppViewModel(testRepository(time = FakeTime()), Prefs(ApplicationProvider.getApplicationContext()), FakeTime())
+    private val vm = testAppViewModel()
     private val nav = Nav({}, {}, {}, {}, {}, {}, {}, {})
 
     private fun show(fontScale: Float = 1f) {
