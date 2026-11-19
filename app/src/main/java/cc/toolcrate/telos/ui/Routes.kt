@@ -23,5 +23,7 @@ internal fun featureRoutes(): Map<String, @Composable (RouteContext) -> Unit> = 
     "goal/{id}" to { c -> GoalDetailScreen(c.arg!!, c.state, c.vm, c.nav, c.selection) },
     "goaledit/{id}" to { c -> GoalEditScreen(c.arg, c.state, c.vm, c.nav) },
     "next" to { c -> NextStepsScreen(c.state, c.vm, c.nav) },
+    "data" to { c -> cc.toolcrate.telos.backup.DataScreen(c.state, c.nav) },
+    "privacy" to { c -> cc.toolcrate.telos.backup.PrivacyScreen(c.state, c.nav) },
     "review" to { c -> ReviewScreen(c.state, c.vm, c.nav) },
 )
