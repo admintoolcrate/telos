@@ -33,6 +33,7 @@ class AppViewModel @Inject constructor(
     val repo: Repository,
     val prefs: Prefs,
     val goals: cc.toolcrate.telos.data.GoalRepository,
+    val lock: cc.toolcrate.telos.security.AppLock,
     private val time: TimeSource,
 ) : ViewModel() {
 

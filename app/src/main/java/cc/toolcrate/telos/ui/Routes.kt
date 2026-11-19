@@ -1,6 +1,7 @@
 package cc.toolcrate.telos.ui
 
 import androidx.compose.runtime.Composable
+import cc.toolcrate.telos.ui.screens.SettingsScreen
 import cc.toolcrate.telos.ui.goals.GoalDetailScreen
 import cc.toolcrate.telos.ui.goals.GoalEditScreen
 import cc.toolcrate.telos.ui.goals.GoalsScreen
@@ -25,5 +26,7 @@ internal fun featureRoutes(): Map<String, @Composable (RouteContext) -> Unit> = 
     "next" to { c -> NextStepsScreen(c.state, c.vm, c.nav) },
     "data" to { c -> cc.toolcrate.telos.backup.DataScreen(c.state, c.nav) },
     "privacy" to { c -> cc.toolcrate.telos.backup.PrivacyScreen(c.state, c.nav) },
+    "settings" to { c -> SettingsScreen(c.state, c.vm, c.nav, c.vm.lock) },
+    "licences" to { c -> cc.toolcrate.telos.ui.screens.LicencesScreen(c.nav) },
     "review" to { c -> ReviewScreen(c.state, c.vm, c.nav) },
 )

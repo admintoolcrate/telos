@@ -47,11 +47,19 @@ is the user's own passphrase-encrypted backup, and only after they switch it on.
   heading, in normal ink: never red, never "You missed…".
 - Priority colours always come with a text or shape cue.
 
+## Compose
+- Never write to state during composition (it loops forever). Derive with `remember(key)`, or
+  change state in event handlers and effects. `AccessibilityTest` catches this as an idle timeout.
+- Feature screens register in `ui/Routes.kt`; task-screen sections in `TaskDetailSlots`.
+- Records from `:domain` can't be smart-cast across modules: use `?.let` / local vals.
+
 ## Accessibility checklist (every screen)
 - Every icon-only control has a `contentDescription`; headings use `Modifier.semantics { heading() }`.
 - Swipe and drag gestures have equivalent `customActions` (complete, reschedule, move up/down).
 - Layouts survive font scale 2.0 (no fixed heights on text containers).
 - Animations check `LocalReduceMotion`.
+- `AccessibilityTest` renders the main screens at 1x and 2x text and fails on any clickable node
+  without text or a content description; add new screens to it.
 
 ## Commits
 - One commit per milestone or coherent change, imperative subject ("Add recurrence engine"),

@@ -55,6 +55,7 @@ class QuickAddActivity : FragmentActivity() {
     private val vm: QuickAddViewModel by viewModels()
     @Inject lateinit var repo: Repository
     @Inject lateinit var prefs: Prefs
+    @Inject lateinit var lock: cc.toolcrate.telos.security.AppLock
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +88,9 @@ class QuickAddActivity : FragmentActivity() {
                         Text("Add to Telos", style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(horizontal = 16.dp).semantics { heading() })
                         QuickAddPanel(
                             vm = vm,
-                            projects = listOfNotNull(index.projects[Project.INBOX_ID]) + index.projectTree().map { it.first },
+                            // While the app is locked, capture still works but doesn't list your projects.
+                            projects = listOfNotNull(index.projects[Project.INBOX_ID]) +
+                                if (settings?.appLock == true && lock.locked.collectAsState().value) emptyList() else index.projectTree().map { it.first },
                             today = LocalDate.now(),
                             onSaved = { t ->
                                 val where = index.projects[t.projectId]?.name ?: "Inbox"

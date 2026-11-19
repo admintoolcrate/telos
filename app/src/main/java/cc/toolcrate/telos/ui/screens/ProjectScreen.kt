@@ -168,12 +168,9 @@ private fun ProjectList(
         header + (if (rootsOnly) g.items else g.items.flatMap { it.flatten() }).map { PRow.TaskR(it, g.section) }
     }
 
-    // While dragging, the working order lives here; otherwise it follows the data.
-    val working = remember { mutableStateListOf<PRow>() }
-    if (draggingKey == null) {
-        working.clear()
-        working.addAll(build(rootsOnly = false))
-    }
+    // The working order: rebuilt when the data changes, rearranged in place while dragging.
+    val working = remember(groups) { mutableStateListOf<PRow>().apply { addAll(build(rootsOnly = false)) } }
+    fun reset() { working.clear(); working.addAll(build(rootsOnly = false)) }
 
     /** Siblings at the top level of the same section, in order. */
     fun rootsIn(rows: List<PRow>, section: Section?) =
@@ -262,7 +259,7 @@ private fun ProjectList(
                                                 dragOffset += me.offset - target.offset
                                             },
                                             onDragEnd = { commitDrag(); draggingKey = null; dragOffset = 0f },
-                                            onDragCancel = { draggingKey = null; dragOffset = 0f },
+                                            onDragCancel = { draggingKey = null; dragOffset = 0f; reset() },
                                         )
                                     },
                                 contentAlignment = Alignment.Center,

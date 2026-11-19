@@ -2,6 +2,10 @@ package cc.toolcrate.telos
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
+import androidx.lifecycle.lifecycleScope
+import cc.toolcrate.telos.security.LockScreen
+import kotlinx.coroutines.launch
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -31,9 +35,31 @@ class MainActivity : FragmentActivity() {
                 mode = state?.settings?.theme ?: cc.toolcrate.telos.ui.theme.ThemeMode.System,
                 reduceMotionOverride = state?.settings?.reduceMotion ?: false,
             ) {
-                TelosRoot(vm, startRoute = startRoute, openTaskId = openTask)
+                val locked by vm.lock.locked.collectAsState()
+                val lockOn = state?.settings?.appLock == true
+                androidx.compose.runtime.LaunchedEffect(state?.settings?.secureScreen) {
+                    if (state?.settings?.secureScreen == true) window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                    else window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                }
+                androidx.compose.material3.Surface(color = cc.toolcrate.telos.ui.theme.LocalPaper.current.page) {
+                    when {
+                        state == null -> {}
+                        lockOn && locked -> LockScreen(vm.lock, this@MainActivity)
+                        else -> TelosRoot(vm, startRoute = startRoute, openTaskId = openTask)
+                    }
+                }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch { vm.lock.onForeground() }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        vm.lock.onBackground()
     }
 
     override fun onNewIntent(intent: Intent) {

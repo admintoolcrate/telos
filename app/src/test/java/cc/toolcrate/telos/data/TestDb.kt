@@ -30,6 +30,7 @@ fun testAppViewModel(time: FakeTime = FakeTime()): cc.toolcrate.telos.ui.AppView
     val db = inMemoryDb()
     val ctx = ApplicationProvider.getApplicationContext<Context>()
     return cc.toolcrate.telos.ui.AppViewModel(
-        testRepository(db, time), Prefs(ctx), GoalRepository(db, DeviceIdentity(ctx, time)), time,
+        testRepository(db, time), Prefs(ctx), GoalRepository(db, DeviceIdentity(ctx, time)),
+        cc.toolcrate.telos.security.AppLock(ctx, Prefs(ctx), time), time,
     )
 }
