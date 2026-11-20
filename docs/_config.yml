@@ -1,12 +1,49 @@
-# GitHub Pages (Settings → Pages → Deploy from a branch → /docs). Hosts the privacy policy Play needs.
+# The website, telos.toolcrate.cc: GitHub Pages (Settings → Pages → Deploy from a branch → main, /docs).
+# It also hosts the privacy policy and the delete-your-data page Play needs. Keep it true to the app:
+# see "Website" in CLAUDE.md.
 title: Telos
-description: Tasks with a reason.
-theme: jekyll-theme-minimal
+tagline: Tasks with a Reason
+url: "https://telos.toolcrate.cc"
+description: Tasks with a reason. A private task manager and goal tracker for Android.
+repo: "https://github.com/admintoolcrate/telos"
+footer_blurb: Tasks with a reason. Free, private, no ads, no accounts.
+og_alt: "Telos: Tasks with a reason. For Android."
+credits: "Quotations from Aristotle, <i>Nicomachean Ethics</i>, tr. H. Rackham, via the Perseus Digital Library (CC BY-SA 4.0)."
 plugins:
+  - jekyll-redirect-from
+  # Writes /sitemap.xml for search engines (supported by GitHub Pages).
   - jekyll-sitemap
-# Drafting notes for Play Console aren't pages anyone needs to visit.
+# Every page uses the site's own layout (_layouts/default.html), in the family look.
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+# Set to the Ko-fi page to show a link in the footer and on /support/.
+kofi: "https://ko-fi.com/toolcratetips"
+# Remembers the light/dark choice made with the toggle.
+theme_key: telos-theme
+# Drafting notes for Play Console and the design notes aren't pages anyone needs to visit.
 exclude:
   - play-store/RELEASE.md
   - play-store/data-safety.md
   - play-store/store-listing.md
   - family-look.md
+# The ToolCrate family, for the footer and the "family" section on the home page.
+family:
+  - name: Stagira
+    url: "https://stagira.toolcrate.cc"
+    mark: stagira
+    line: A quiet habit tracker. Count the days you keep.
+  - name: Lyceum
+    url: "https://lyceum.toolcrate.cc"
+    mark: lyceum
+    line: A daily reflection journal. One quiet page a day.
+  - name: Telos
+    url: "https://telos.toolcrate.cc"
+    mark: telos
+    line: A task manager and goal tracker. Tasks with a reason.
+  - name: Kairos
+    url: "https://kairos.toolcrate.cc"
+    mark: kairos
+    line: A calm companion for urges and panic. Calm tools for hard moments.

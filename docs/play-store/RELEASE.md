@@ -55,7 +55,7 @@ Then either:
 
 | Section | Answer |
 |---|---|
-| Privacy policy | `https://admintoolcrate.github.io/telos/privacy/` (step 6) |
+| Privacy policy | `https://telos.toolcrate.cc/privacy/` (step 6) |
 | Ads | **No** |
 | App access | All functionality is available without special access |
 | Content rating | Category **All other app types**. No violence, no user-to-user content or sharing, no purchases, no location sharing |
@@ -78,13 +78,13 @@ Copy from [`store-listing.md`](store-listing.md). Graphics are in `graphics/` an
 
 ## 6. Host the privacy policy (you)
 
-The repo's `docs/` folder is a small GitHub Pages site:
+`docs/` is the Telos website (telos.toolcrate.cc), which also carries the policy:
 
 1. On GitHub, open **Settings → Pages**, set Source to **Deploy from a branch**, choose branch `main`
    and folder **/docs**, then **Save**.
-2. The policy appears at `https://admintoolcrate.github.io/telos/privacy/`.
-3. Optional: to use `telos.toolcrate.cc`, add a `docs/CNAME` file with that name and a DNS `CNAME`
-   record pointing to `admintoolcrate.github.io`.
+2. The policy appears at `https://telos.toolcrate.cc/privacy/`.
+3. At the DNS provider for toolcrate.cc, add a `CNAME` record: `telos` → `admintoolcrate.github.io`
+   (`docs/CNAME` already names the domain). Once it resolves, tick **Enforce HTTPS** under Pages.
 
 ## 7. Google sign-in for Drive backup (you)
 
