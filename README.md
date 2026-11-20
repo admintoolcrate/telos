@@ -3,6 +3,8 @@
 A private, personal-first task manager and goal tracker for Android. No accounts, no servers,
 no ads, no tracking. Your tasks stay on your phone.
 
+Website: https://telos.toolcrate.cc (source in `docs/`).
+
 - Inbox, Today, Upcoming and Projects, with sections, boards, labels, priorities and subtasks
 - Recurring tasks ("every weekday", "3 days after completion") and reminders that survive reboot
 - Natural-language quick add, parsed on the device: `Call dentist tomorrow 3pm #Health @phone p2`

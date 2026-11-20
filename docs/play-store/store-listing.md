@@ -37,7 +37,7 @@
 **Category:** Productivity
 **Tags:** To-do list, Task management
 **Contact email:** admin.toolcrate@gmail.com
-**Privacy policy:** `https://admintoolcrate.github.io/telos/privacy/` (RELEASE.md, step 6)
+**Privacy policy:** `https://telos.toolcrate.cc/privacy/` (RELEASE.md, step 6)
 
 **Graphics** (in `graphics/` and `screenshots/`): icon 512×512 and feature graphic 1024×500
 (from `tools/family_graphics.py`), phone screenshots.

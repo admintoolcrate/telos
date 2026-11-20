@@ -69,3 +69,21 @@ is the user's own passphrase-encrypted backup, and only after they switch it on.
 ## Commits
 - One commit per milestone or coherent change, imperative subject ("Add recurrence engine"),
   body explains why. Branch: `claude/laughing-davinci-f7bafy`.
+
+## Website (telos.toolcrate.cc)
+- `docs/` is the public website, served by GitHub Pages from `main` (`docs/CNAME`). It is Jekyll:
+  `index.html` (home), `support.html`, `404.html`, the privacy policy and delete-your-data pages,
+  all in `_layouts/default.html`; names, links and the family list live in `docs/_config.yml`.
+- **Keep it true to the app.** When a change adds, removes or renames something a person would
+  notice (a feature, a screen, a setting, what's stored or sent, supported Android versions,
+  Play availability), update the home page's features, steps, FAQ or private panel in the same
+  change, along with the README, store listing and privacy policy where they say the same thing.
+  Internal refactors and fixes need no site change.
+- The phone on the home page shows `docs/play-store/screenshots/` directly; when you redraw the
+  store screenshots, check each slide's alt text and caption (`data-name`, `data-desc`) still fits,
+  and add or drop a slide (and its dot) if the set changes.
+- Follow the family look and voice (docs/family-look.md; no gamification or guilt copy). Quote only built-in copy or
+  verified passages (Lyceum's `quotes/Quotes.kt`, word for word); no claims the app doesn't back up.
+- `docs/assets/site.css`, `site.js` and `_layouts/default.html` are the same in Lyceum, Telos and
+  Kairos; change them in all three. Preview: `cd docs && jekyll build` (or `jekyll serve`), then
+  look at the home page in light, dark and at phone width.
