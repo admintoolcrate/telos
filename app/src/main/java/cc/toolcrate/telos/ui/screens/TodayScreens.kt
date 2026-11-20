@@ -106,7 +106,7 @@ fun UpcomingScreen(state: AppState, vm: AppViewModel, nav: Nav, selection: Selec
                             Column(
                                 Modifier
                                     .heightIn(min = 56.dp)
-                                    .background(if (isSel) paper.accentSoft else androidx.compose.ui.graphics.Color.Transparent, RoundedCornerShape(10.dp))
+                                    .background(if (isSel) paper.accentSoft else androidx.compose.ui.graphics.Color.Transparent, RoundedCornerShape(14.dp))
                                     .clickable { selectedEpoch = date.toEpochDay() }
                                     .semantics {
                                         role = Role.Tab

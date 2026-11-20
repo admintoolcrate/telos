@@ -1,5 +1,6 @@
 package cc.toolcrate.telos.ui.screens
 
+import cc.toolcrate.telos.ui.theme.ScreenTitle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -292,7 +293,7 @@ fun LabelScreen(labelId: String, state: AppState, vm: AppViewModel, nav: Nav, se
         item("title") {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = nav.back) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
-                Text("@" + label.name, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.weight(1f).semantics { heading() })
+                Text("@" + label.name, style = ScreenTitle, modifier = Modifier.weight(1f).semantics { heading() })
                 TextButton(onClick = { dialog = "rename" }) { Text("Rename") }
                 TextButton(onClick = { dialog = "delete" }) { Text("Delete") }
             }

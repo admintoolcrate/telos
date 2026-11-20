@@ -1,5 +1,6 @@
 package cc.toolcrate.telos.ui.components
 
+import cc.toolcrate.telos.ui.theme.ScreenTitle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +22,7 @@ import cc.toolcrate.telos.ui.theme.LocalPaper
 @Composable
 fun PageTitle(text: String, modifier: Modifier = Modifier, subtitle: String? = null) {
     Column(modifier.padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 8.dp)) {
-        Text(text, style = MaterialTheme.typography.headlineMedium, color = LocalPaper.current.ink, modifier = Modifier.semantics { heading() })
+        Text(text, style = ScreenTitle, color = LocalPaper.current.ink, modifier = Modifier.semantics { heading() })
         subtitle?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = LocalPaper.current.muted) }
     }
 }

@@ -1,5 +1,6 @@
 package cc.toolcrate.telos.ui.screens
 
+import cc.toolcrate.telos.ui.theme.ScreenTitle
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,7 +53,7 @@ import java.time.ZoneId
 fun BackTitle(title: String, nav: Nav, actions: @Composable () -> Unit = {}) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
         IconButton(onClick = nav.back) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") }
-        Text(title, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.weight(1f).semantics { heading() })
+        Text(title, style = ScreenTitle, modifier = Modifier.weight(1f).semantics { heading() })
         actions()
     }
 }

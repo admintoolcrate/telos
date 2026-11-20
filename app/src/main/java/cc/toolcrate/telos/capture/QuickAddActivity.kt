@@ -80,7 +80,7 @@ class QuickAddActivity : FragmentActivity() {
                             .fillMaxWidth()
                             .windowInsetsPadding(WindowInsets.safeDrawing)
                             .imePadding()
-                            .background(paper.card, RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                            .background(paper.card, RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
                             .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {}
                             .padding(top = 12.dp),
                         verticalArrangement = Arrangement.Bottom,

@@ -3,7 +3,9 @@ package cc.toolcrate.telos.ui.theme
 import android.provider.Settings
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -14,15 +16,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cc.toolcrate.telos.R
 
-/** The "Paper" palette: warm cream pages and brown-black ink. */
+/**
+ * The palette, as Mono: the ToolCrate family look (docs/family-look.md), shared with Stagira,
+ * Lyceum and Kairos. Black on white, true black at night. `accent` is ink; `accentSoft` is the
+ * soft tint for selected things. Priority colours are the one exception to "no colour", and
+ * always come with a text or shape cue. (The class keeps its old name to keep the diff small.)
+ */
 @Immutable
 data class Paper(
     val page: Color,
@@ -39,16 +49,16 @@ data class Paper(
 )
 
 val LightPaper = Paper(
-    page = Color(0xFFF4EEE1), card = Color(0xFFFBF8F1), ink = Color(0xFF2A2119),
-    muted = Color(0xFF6F6354), rule = Color(0xFFDCD2C1), accent = Color(0xFF8B5E34),
-    accentSoft = Color(0xFFEADBC5),
+    page = Color(0xFFFFFFFF), card = Color(0xFFF7F7F6), ink = Color(0xFF111111),
+    muted = Color(0xFF6E6E6E), rule = Color(0xFFEAEAE8), accent = Color(0xFF111111),
+    accentSoft = Color(0xFFECECEA),
     p1 = Color(0xFF9C3D2A), p2 = Color(0xFF9A6B12), p3 = Color(0xFF3F5E7A), isDark = false,
 )
 
 val DarkPaper = Paper(
-    page = Color(0xFF1B1712), card = Color(0xFF25201A), ink = Color(0xFFEEE5D4),
-    muted = Color(0xFFA79A86), rule = Color(0xFF3A3229), accent = Color(0xFFD3A872),
-    accentSoft = Color(0xFF3B3022),
+    page = Color(0xFF000000), card = Color(0xFF0E0E0E), ink = Color(0xFFFFFFFF),
+    muted = Color(0xFF9A9A9A), rule = Color(0xFF1C1C1C), accent = Color(0xFFFFFFFF),
+    accentSoft = Color(0xFF262626),
     p1 = Color(0xFFE08B72), p2 = Color(0xFFD9B060), p3 = Color(0xFF93B1CE), isDark = true,
 )
 
@@ -58,30 +68,49 @@ val Garamond = FontFamily(
     Font(R.font.eb_garamond_italic, FontWeight.Normal, FontStyle.Italic),
 )
 
-val Inter = FontFamily(Font(R.font.inter))
+@OptIn(ExperimentalTextApi::class)
+private fun inter(weight: FontWeight) = Font(
+    R.font.inter,
+    weight = weight,
+    variationSettings = FontVariation.Settings(FontVariation.weight(weight.weight)),
+)
 
+/** Inter at the family's weights, from its variable axis (as in Stagira). */
+val Inter = FontFamily(inter(FontWeight.Light), inter(FontWeight.Normal), inter(FontWeight.Medium), inter(FontWeight.SemiBold))
+
+/** A screen's title, in Garamond, as Stagira sets its top bars (docs/family-look.md). */
+val ScreenTitle = TextStyle(fontFamily = Garamond, fontSize = 30.sp, lineHeight = 34.sp)
+
+/** The family type scale (docs/family-look.md): Garamond for display moments, Inter for the rest. */
 private fun typography(): Typography {
     val base = Typography()
-    fun TextStyle.serif() = copy(fontFamily = Garamond, fontWeight = FontWeight.Medium)
-    fun TextStyle.sans() = copy(fontFamily = Inter)
-    return Typography(
-        displayLarge = base.displayLarge.serif(),
-        displayMedium = base.displayMedium.serif(),
-        displaySmall = base.displaySmall.serif(),
-        headlineLarge = base.headlineLarge.serif(),
-        headlineMedium = base.headlineMedium.serif(),
-        headlineSmall = base.headlineSmall.serif(),
-        titleLarge = base.titleLarge.serif().copy(fontSize = 24.sp),
-        titleMedium = base.titleMedium.sans(),
-        titleSmall = base.titleSmall.sans(),
-        bodyLarge = base.bodyLarge.sans(),
-        bodyMedium = base.bodyMedium.sans(),
-        bodySmall = base.bodySmall.sans(),
-        labelLarge = base.labelLarge.sans(),
-        labelMedium = base.labelMedium.sans(),
-        labelSmall = base.labelSmall.sans(),
+    return base.copy(
+        displayLarge = base.displayLarge.copy(fontFamily = Garamond, fontWeight = FontWeight.Normal, letterSpacing = (-1).sp, fontFeatureSettings = "tnum"),
+        displayMedium = base.displayMedium.copy(fontFamily = Garamond, fontWeight = FontWeight.Normal, letterSpacing = (-0.5).sp, fontFeatureSettings = "tnum"),
+        displaySmall = base.displaySmall.copy(fontFamily = Garamond, fontWeight = FontWeight.Normal, letterSpacing = 0.sp, fontFeatureSettings = "tnum"),
+        headlineLarge = base.headlineLarge.copy(fontFamily = Inter, fontWeight = FontWeight.Light, letterSpacing = (-0.6).sp),
+        headlineMedium = base.headlineMedium.copy(fontFamily = Inter, fontWeight = FontWeight.Light, letterSpacing = (-0.4).sp),
+        headlineSmall = base.headlineSmall.copy(fontFamily = Inter, fontWeight = FontWeight.Normal, letterSpacing = (-0.3).sp),
+        titleLarge = base.titleLarge.copy(fontFamily = Inter, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.3).sp),
+        titleMedium = base.titleMedium.copy(fontFamily = Inter, fontWeight = FontWeight.SemiBold, letterSpacing = (-0.1).sp),
+        titleSmall = base.titleSmall.copy(fontFamily = Inter, fontWeight = FontWeight.SemiBold),
+        bodyLarge = base.bodyLarge.copy(fontFamily = Inter, letterSpacing = 0.sp),
+        bodyMedium = base.bodyMedium.copy(fontFamily = Inter, letterSpacing = 0.sp),
+        bodySmall = base.bodySmall.copy(fontFamily = Inter, letterSpacing = 0.1.sp),
+        labelLarge = base.labelLarge.copy(fontFamily = Inter, fontWeight = FontWeight.Medium),
+        labelMedium = base.labelMedium.copy(fontFamily = Inter, fontWeight = FontWeight.Medium, letterSpacing = 0.2.sp),
+        labelSmall = base.labelSmall.copy(fontFamily = Inter, fontWeight = FontWeight.Medium, letterSpacing = 0.3.sp),
     )
 }
+
+/** Family shapes (docs/family-look.md): Material's small parts, 24 dp cards, 28 dp sheets. */
+val FamilyShapes = Shapes(
+    extraSmall = RoundedCornerShape(4.dp),
+    small = RoundedCornerShape(8.dp),
+    medium = RoundedCornerShape(24.dp),
+    large = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(28.dp),
+)
 
 private fun Paper.scheme(): ColorScheme = if (isDark) darkColorScheme(
     primary = accent, onPrimary = page, primaryContainer = accentSoft, onPrimaryContainer = ink,
@@ -90,7 +119,7 @@ private fun Paper.scheme(): ColorScheme = if (isDark) darkColorScheme(
     surfaceVariant = card, onSurfaceVariant = muted, surfaceContainer = card,
     surfaceContainerLow = card, surfaceContainerHigh = card, surfaceContainerHighest = card,
     surfaceContainerLowest = page,
-    outline = muted, outlineVariant = rule, error = p1, onError = page,
+    outline = muted, outlineVariant = rule, error = ink, onError = page,
 ) else lightColorScheme(
     primary = accent, onPrimary = page, primaryContainer = accentSoft, onPrimaryContainer = ink,
     secondary = muted, onSecondary = page, secondaryContainer = accentSoft, onSecondaryContainer = ink,
@@ -98,7 +127,7 @@ private fun Paper.scheme(): ColorScheme = if (isDark) darkColorScheme(
     surfaceVariant = card, onSurfaceVariant = muted, surfaceContainer = card,
     surfaceContainerLow = card, surfaceContainerHigh = card, surfaceContainerHighest = card,
     surfaceContainerLowest = page,
-    outline = muted, outlineVariant = rule, error = p1, onError = page,
+    outline = muted, outlineVariant = rule, error = ink, onError = page,
 )
 
 val LocalPaper = staticCompositionLocalOf { LightPaper }
@@ -130,6 +159,6 @@ fun TelosTheme(
         LocalPaper provides paper,
         LocalReduceMotion provides (systemReduce || reduceMotionOverride),
     ) {
-        MaterialTheme(colorScheme = paper.scheme(), typography = typography(), content = content)
+        MaterialTheme(colorScheme = paper.scheme(), typography = typography(), shapes = FamilyShapes, content = content)
     }
 }

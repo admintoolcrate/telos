@@ -1,5 +1,6 @@
 package cc.toolcrate.telos.ui.screens
 
+import cc.toolcrate.telos.ui.theme.ScreenTitle
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -87,7 +88,7 @@ fun ProjectScreen(projectId: String, state: AppState, vm: AppViewModel, nav: Nav
 
     Column(Modifier.fillMaxSize()) {
         TopAppBar(
-            title = { Text(project.name, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.semantics { heading() }) },
+            title = { Text(project.name, style = ScreenTitle, modifier = Modifier.semantics { heading() }) },
             navigationIcon = { IconButton(onClick = nav.back) { Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back") } },
             actions = {
                 IconButton(onClick = { menu = true }) { Icon(Icons.Default.MoreVert, contentDescription = "Project options") }

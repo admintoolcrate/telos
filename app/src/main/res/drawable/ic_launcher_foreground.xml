@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The Telos mark: an open ring around a sepia point. Telos is the end a thing aims at;
+<!-- The Telos mark: an open ring around a point, white on ink (the ToolCrate family look). Telos is the end a thing aims at;
      the ring is still open because the work is on its way there. See design/logo/README.md. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
-    <path android:strokeColor="#2A2119" android:strokeWidth="3" android:strokeLineCap="round"
+    <path android:strokeColor="#FFFAFAF8" android:strokeWidth="3" android:strokeLineCap="round"
         android:pathData="M66,33.2 A24,24 0 1,0 77.5,49" />
-    <path android:fillColor="#8B5E34" android:pathData="M54,48.5a5.5,5.5 0 1,0 0.01,0z" />
+    <path android:fillColor="#FFFAFAF8" android:pathData="M54,48.5a5.5,5.5 0 1,0 0.01,0z" />
 </vector>

@@ -41,8 +41,13 @@ is the user's own passphrase-encrypted backup, and only after they switch it on.
 - Never fetch a shared URL's page title or favicon.
 
 ## Tone and look
-- Calm and bookish. "Paper" palette (`ui/theme/Theme.kt`): cream page, brown-black ink, sepia
-  accent. EB Garamond for headings (`titleLarge` and up), Inter for everything else.
+- Telos follows the ToolCrate family look shared with Stagira, Lyceum and Kairos:
+  **read `docs/family-look.md`** (the same file in all four repos; change it in all four).
+  Mono palette (`ui/theme/Theme.kt`: black on white, true black at night; `accent` is ink),
+  EB Garamond only for display moments and `ScreenTitle`, Inter for everything else, 24 dp
+  cards, pill buttons. Play icon and feature graphic: `tools/family_graphics.py`.
+- `ui/RenderTest` draws real screens in light and dark to `app/build/screens/`; look at them
+  after UI changes.
 - No gamification, streaks, karma or guilt copy. Overdue items sit under a neutral "Earlier"
   heading, in normal ink: never red, never "You missed…".
 - Priority colours always come with a text or shape cue.
