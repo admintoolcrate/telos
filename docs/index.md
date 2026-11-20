@@ -13,4 +13,4 @@ Tasks with a reason. A private task manager and goal tracker for Android.
 - Free, with no ads, no accounts and no analytics. Your tasks stay on your phone.
 - App lock, export to a file, and an optional encrypted backup to your own Google Drive.
 
-[Privacy policy](privacy/)
+[Privacy policy](privacy/) · [Delete your data](delete-data/)
