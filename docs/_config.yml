@@ -1,0 +1,12 @@
+# GitHub Pages (Settings → Pages → Deploy from a branch → /docs). Hosts the privacy policy Play needs.
+title: Telos
+description: Tasks with a reason.
+theme: jekyll-theme-minimal
+plugins:
+  - jekyll-sitemap
+# Drafting notes for Play Console aren't pages anyone needs to visit.
+exclude:
+  - play-store/RELEASE.md
+  - play-store/data-safety.md
+  - play-store/store-listing.md
+  - family-look.md
