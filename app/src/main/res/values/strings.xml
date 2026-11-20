@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Telos</string>
+    <string name="shortcut_add">Add task</string>
+    <string name="shortcut_today">Today</string>
+    <string name="add_to_telos">Add to Telos</string>
+    <string name="widget_today">Today</string>
+    <string name="widget_add">Add task</string>
+    <string name="widget_today_description">Today\'s tasks, with a tick to complete them.</string>
+    <string name="widget_add_description">One tap to add a task.</string>
+</resources>

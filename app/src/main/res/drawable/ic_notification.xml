@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon: the same open ring and point, white on transparent, cropped to the mark.
+     A heavier stroke so it holds up at 24dp. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="56" android:viewportHeight="56">
+    <group android:translateX="-26" android:translateY="-26">
+        <path android:strokeColor="#FFFFFFFF" android:strokeWidth="5" android:strokeLineCap="round"
+            android:pathData="M66,33.2 A24,24 0 1,0 77.5,49" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M54,47.5a6.5,6.5 0 1,0 0.01,0z" />
+    </group>
+</vector>
